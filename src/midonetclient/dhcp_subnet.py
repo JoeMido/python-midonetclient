@@ -62,7 +62,7 @@ class DhcpSubnet(ResourceBase):
     def get_dhcp_hosts(self):
         query = {}
         headers = {'Accept':
-                       vendor_media_type.APPLICATION_DHCP_HOST_COLLECTION_JSON}
+                   vendor_media_type.APPLICATION_DHCP_HOST_COLLECTION_JSON}
         return self.get_children(self.dto['hosts'], query, headers,
                                  DhcpHost)
 

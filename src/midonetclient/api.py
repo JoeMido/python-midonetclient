@@ -297,7 +297,7 @@ if __name__ == '__main__':
         for p in t.get_port_groups():
             print 'id: ',  p.get_id()
 
-    rp1 = router1.add_exterior_port()\
+    rp1 = router1.add_port()\
                  .port_address('2.2.2.2')\
                  .network_address('2.2.2.0')\
                  .network_length(24).create()
@@ -308,12 +308,12 @@ if __name__ == '__main__':
     print 'rp1 port group ids=%r' % [pgp1.get_port_group_id(),
                                      pgp2.get_port_group_id()]
 
-    rp2 = router1.add_interior_port().port_address('1.1.1.1')\
+    rp2 = router1.add_port().port_address('1.1.1.1')\
                  .network_address('1.1.1.0').network_length(24).create()
 
-    rp3 = router1.add_interior_port().port_address('1.1.1.2')\
+    rp3 = router1.add_port().port_address('1.1.1.2')\
                  .network_address('1.1.1.0').network_length(24).create()
-    rp4 = router1.add_interior_port().port_address('1.1.1.3')\
+    rp4 = router1.add_port().port_address('1.1.1.3')\
                  .network_address('1.1.1.0').network_length(24).create()
     print api.get_port(rp1.get_id())
 
@@ -372,7 +372,7 @@ if __name__ == '__main__':
             print 'id: ',  b.get_id()
 
     # Bridges/Ports
-    bp1 = bridge1.add_exterior_port().inbound_filter_id(random_uuid).create()
+    bp1 = bridge1.add_port().inbound_filter_id(random_uuid).create()
 
     # Add this port to both port groups
     pgp1 = pg1.add_port_group_port().port_id(bp1.get_id()).create()
@@ -380,7 +380,7 @@ if __name__ == '__main__':
     print 'bp1 port group ids=%r' % [pgp1.get_port_group_id(),
                                      pgp2.get_port_group_id()]
 
-    bp2 = bridge1.add_interior_port().create()
+    bp2 = bridge1.add_port().create()
 
     print api.get_port(bp1.get_id())
     bp2.link(rp4.get_id())
@@ -483,10 +483,11 @@ if __name__ == '__main__':
     chain2.delete()
 
     # Trace conditions
-    tCond1 = add_trace_condition().nw_src_address('5.5.5.5').create()
-    tCond2 = add_trace_condition().dl_type('2').nw_proto('1').create()
+    tCond1 = api.add_trace_condition().nw_src_address('5.5.5.5').create()
+    tCond2 = api.add_trace_condition().dl_type('1536').nw_proto('1').create()
 
-    for tCond in get_trace_conditions():
+    tConds = api.get_trace_conditions()
+    for tCond in tConds:
         print 'trace condition ----'
         print tCond.get_id()
 

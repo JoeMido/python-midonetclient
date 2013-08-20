@@ -40,9 +40,6 @@ APPLICATION_HOST_COMMAND_JSON = \
     "application/vnd.org.midonet.HostCommand-v1+json"
 APPLICATION_HOST_COMMAND_COLLECTION_JSON = \
     "application/vnd.org.midonet.collection.HostCommand-v1+json"
-APPLICATION_PORT_JSON = "application/vnd.org.midonet.Port-v1+json"
-APPLICATION_PORT_COLLECTION_JSON = \
-    "application/vnd.org.midonet.collection.Port-v1+json"
 APPLICATION_PORT_LINK_JSON = "application/vnd.org.midonet.PortLink-v1+json"
 APPLICATION_ROUTE_JSON = "application/vnd.org.midonet.Route-v1+json"
 APPLICATION_ROUTE_COLLECTION_JSON = \
@@ -109,3 +106,8 @@ APPLICATION_HOST_INTERFACE_PORT_COLLECTION_JSON = \
 APPLICATION_CONDITION_JSON = "application/vnd.org.midonet.Condition-v1+json"
 APPLICATION_CONDITION_COLLECTION_JSON = \
     "application/vnd.org.midonet.collection.Condition-v1+json"
+
+# Port media types
+APPLICATION_PORT_V2_JSON = "application/vnd.org.midonet.Port-v2+json"
+APPLICATION_PORT_V2_COLLECTION_JSON = \
+    "application/vnd.org.midonet.collection.Port-v2+json"
