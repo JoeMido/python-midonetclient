@@ -20,6 +20,7 @@
 # @author: Artem Dmytrenko <art@midokura.com>, Midokura
 
 import logging
+from socket import error as socket_error
 
 from midonetclient import auth_lib
 from midonetclient.application import Application
@@ -260,7 +261,10 @@ class MidonetApi(object):
     def _ensure_application(self):
         if self.app is None:
             self.app = Application(None, {'uri': self.base_uri}, self.auth)
-            self.app.get()
+            try:
+                self.app.get()
+            except socket_error:
+                self.app = None
 
 
 # just for testing
