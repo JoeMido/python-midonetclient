@@ -173,6 +173,28 @@ class MidonetApi(object):
         self._ensure_application()
         return self.app.add_bridge()
 
+    def add_bridge_dhcp(self, bridge, gateway_ip, cidr, host_rts, dns_nservers):
+        net_addr, net_len = cidr.split('/')
+
+        dhcp = bridge.add_dhcp_subnet().default_gateway(gateway_ip)\
+                                .subnet_prefix(net_addr)\
+                                .subnet_length(net_len)\
+
+        if host_rts is not None and len(dns_nservers) > 0:
+            opt121_list = []
+            for rt in host_rts or []:
+                rt_net_addr, rt_net_len = rt['destination'].split('/')
+                opt121_list.append({'destinationPrefix': rt_net_addr,\
+                               'destinationLength': rt_net_len,\
+                               'gatewayAddr': rt['nexthop']})
+            dhcp.opt121_routes(opt121_list)
+
+        if dns_nservers is not None and len(dns_nservers) > 0:
+            dhcp.dns_server_addrs(dns_nservers)
+
+        dhcp.create()
+
+
     def add_port_group(self):
         self._ensure_application()
         return self.app.add_port_group()
@@ -429,6 +451,10 @@ if __name__ == '__main__':
 
     assert 2 == len(dhcp1.get_dhcp_hosts())
 
+    api.add_bridge_dhcp(bridge1, '1.2.4.4', '6.7.8.9/3',\
+                        [{'destination': '10.0.0.0/24', 'nexthop':'10.0.0.1'},\
+                         {'destination': '10.0.1.0/24', 'nexthop':'10.0.1.1'}],\
+                        ['10.1.1.1', '10.1.1.2'])
     for ds in bridge1.get_dhcp_subnets():
         print 'dhcp subnet', ds
 
