@@ -99,7 +99,7 @@ class MidonetApi(object):
             query = {}
         self._ensure_application()
         return self.app.get_hosts(query)
-    
+ 
     def add_host_interface_port(self, host, port_id, interface_name):
         return host.add_host_interface_port().port_id(port_id) \
             .interface_name(interface_name).create()
@@ -183,6 +183,34 @@ class MidonetApi(object):
     def add_bridge(self):
         self._ensure_application()
         return self.app.add_bridge()
+
+    def add_bridge_dhcp(self, bridge, gateway_ip, cidr, host_rts=None,
+                        dns_nservers=None):
+        if host_rts is None:
+            host_rts = []
+
+        if dns_nservers is None:
+            dns_nservers = []
+
+        net_addr, net_len = cidr.split('/')
+
+        dhcp = bridge.add_dhcp_subnet().default_gateway(gateway_ip)\
+                                       .subnet_prefix(net_addr)\
+                                       .subnet_length(net_len)
+
+        if host_rts:
+            opt121_list = []
+            for rt in host_rts:
+                rt_net_addr, rt_net_len = rt['destination'].split('/')
+                opt121_list.append({'destinationPrefix': rt_net_addr,
+                                    'destinationLength': rt_net_len,
+                                    'gatewayAddr': rt['nexthop']})
+            dhcp.opt121_routes(opt121_list)
+
+        if dns_nservers:
+            dhcp.dns_server_addrs(dns_nservers)
+
+        dhcp.create()
 
     def add_port_group(self):
         self._ensure_application()
