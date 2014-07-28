@@ -39,3 +39,19 @@ SECURITY_GROUP = "application/vnd.org.midonet.neutron.SecurityGroup-v1+json"
 SECURITY_GROUPS = "application/vnd.org.midonet.neutron.SecurityGroups-v1+json"
 SG_RULE = "application/vnd.org.midonet.neutron.SecurityGroupRule-v1+json"
 SG_RULES = "application/vnd.org.midonet.neutron.SecurityGroupRules-v1+json"
+
+# LBaaS extension
+VIP = "application/vnd.org.midonet.neutron.Vip-v1+json"
+VIPS = "application/vnd.org.midonet.neutron.Vips-v1+json"
+
+POOL = "application/vnd.org.midonet.neutron.Pool-v1+json"
+POOLS = "application/vnd.org.midonet.neutron.Pools-v1+json"
+
+MEMBER = "application/vnd.org.midonet.neutron.PoolMember-v1+json"
+MEMBERS = "application/vnd.org.midonet.neutron.PoolMembers-v1+json"
+
+HEALTH_MONITOR = "application/vnd.org.midonet.neutron.HealthMonitor-v1+json"
+HEALTH_MONITORS = "application/vnd.org.midonet.neutron.HealthMonitors-v1+json"
+
+POOL_HEALTH_MONITOR = ("application/vnd.org.midonet"
+                       ".neutron.PoolHealthMonitor-v1+json")
